@@ -10,7 +10,8 @@ import {
     Keyboard,
     TouchableWithoutFeedback,
     Animated,
-    Dimensions
+    Dimensions,
+    Modal
  } from 'react-native'
 import BackArrow from '../../images/Arrow.png'
 import MapImage from '../../images/MapImage.png'
@@ -28,6 +29,7 @@ class EnterAddressScreen extends Component {
         this.state = {
             animation: new Animated.Value(0),
             isHomeSelect:false,
+            
         }
     }
     handleOpen = () => {
@@ -69,6 +71,7 @@ class EnterAddressScreen extends Component {
            }
         }
       }
+      
    render() {
     const screenHeight = Dimensions.get("window").height;
     const backdrop = {

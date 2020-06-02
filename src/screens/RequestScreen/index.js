@@ -6,6 +6,7 @@ import {
     TouchableOpacity, 
     Image,
     ScrollView,
+    Modal,
 
  } from 'react-native'
 import AddHome from '../../images/addHome.png' 
@@ -26,16 +27,33 @@ import Top from '../../images/top.png'
 
 import Calendar from '../../images/calendar.png'
 
+import CalendarModal from '../../modal/CalendarModal'
+
 class RequestScreen extends Component {
     constructor(props){
         super(props)
         this.state = {
             line2:false,
+            isModalVisible:false,
+            bgColor:'white'
         }
+    }
+    changeModalVisibility = (bool) => {
+        if(bool == true){
+            this.setState({
+                bgColor:'lightgray'
+            })
+        }
+        else{
+            this.setState({
+                bgColor:'white'
+            })
+        }
+        this.setState({ isModalVisible: bool });
     }
    render() {
        return (
-           <View style={styles.container}>
+           <View style={[styles.container, {backgroundColor:this.state.bgColor}]}>
                {/* header */}
                <View style={{
                    backgroundColor:"white", 
@@ -233,7 +251,9 @@ class RequestScreen extends Component {
                         source={Calendar}
                         style={styles.calenderImage}
                      />
-                     <TouchableOpacity>
+                     <TouchableOpacity
+                        onPress={() => this.changeModalVisibility(true)}
+                     >
                          <Text style={styles.calenderText}>
                          Schedule time & Date
                          </Text>
@@ -250,7 +270,10 @@ class RequestScreen extends Component {
                         >BOOK A CLEANING</Text>
                     </TouchableOpacity>
                 </View>
-                    
+                <Modal transparent={true} visible={this.state.isModalVisible} onRequestClose={() => this.changeModalVisibility(false)}
+            animationType='fade'>
+                <CalendarModal changeModalVisibility={this.changeModalVisibility } />
+            </Modal>
 
            </View>
         )
@@ -262,7 +285,6 @@ export default RequestScreen
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:'white',
     },
     range:{ 
         flexDirection:'row',
