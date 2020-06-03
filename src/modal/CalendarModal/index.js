@@ -15,7 +15,9 @@ class CalendarModal extends Component {
                 [  28, 29, 30, -1, -1, -1, -1],
                 [  -1, -1, -1, -1, -1, -1, -1],
             ],
-            days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            selectedDay:0,
+            textColor:''
             
         }
     }
@@ -49,13 +51,24 @@ class CalendarModal extends Component {
         {this.state.jun[index].map((value, index) => {
             if(value == -1){
                 bgColor = '#FF2455'
+                // this.setState{}
             }else if(index == 5 || index == 6){
                 bgColor = '#ffc4d1'
-            }
-            else{
+            }else if(value == this.state.selectedDay){
+                bgColor = '#FF2455'
+            }else{
                 bgColor = 'white'
             }
-            return <TouchableOpacity style={{
+            return <TouchableOpacity 
+            key={index} 
+            onPress={() => {
+                if(value != -1){
+                    this.setState({
+                        selectedDay :value
+                    })
+                }
+            }}
+            style={{
                 height:34, 
                 width:40, 
                 borderWidth:1, 
