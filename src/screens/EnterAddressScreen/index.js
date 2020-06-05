@@ -17,7 +17,7 @@ import BackArrow from '../../images/Arrow.png'
 import MapImage from '../../images/MapImage.png'
 // import MapView from 'react-native-maps'; 
 import AddWork from '../../images/addWork.png'
-import AddHome from '../../images/addHome.png'
+import AddHome from '../../images/addHome.png'       
 import AddOther from '../../images/addOther.png'
 import SwipeGesture from '../../../swipe-gesture'
 
