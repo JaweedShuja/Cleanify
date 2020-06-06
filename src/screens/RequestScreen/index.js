@@ -35,7 +35,8 @@ class RequestScreen extends Component {
         this.state = {
             line2:false,
             isModalVisible:false,
-            bgColor:'white'
+            bgColor:'white',    
+            isDateSet:0,
         }
     }
     changeModalVisibility = (bool) => {
@@ -46,10 +47,16 @@ class RequestScreen extends Component {
         }
         else{
             this.setState({
-                bgColor:'white'
+                bgColor:'white',
             })
+            this.setState({
+                isDateSet:1
+            })
+            console.log('ye line chali')
+            console.log(this.state.isDateSet)
         }
         this.setState({ isModalVisible: bool });
+        console.log(this.state.isDateSet)
     }
    render() {
        return (
@@ -264,7 +271,7 @@ class RequestScreen extends Component {
 
                 <View style={styles.btnContainer}>
                     <TouchableOpacity
-                     style={styles.Btn}>
+                     style={[styles.Btn, {opacity:this.state.isDateSet == 1 ? 1 : 0.5}]}>
                         <Text
                             style={styles.BtnText}
                         >BOOK A CLEANING</Text>
@@ -395,7 +402,6 @@ const styles = StyleSheet.create({
         borderRadius:30,
         alignItems:'center',
         justifyContent:'center',
-        opacity:0.5,
     },
     BtnText:{
         fontWeight:'bold',

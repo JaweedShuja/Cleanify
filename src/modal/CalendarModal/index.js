@@ -523,9 +523,7 @@ class CalendarModal extends Component {
                 </View>
                 <TouchableOpacity 
             onPress={() => {
-                this.setState({
-                   
-                })
+                this.closeModal()
             }}
                 style={{
                     height:40, 

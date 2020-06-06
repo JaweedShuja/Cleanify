@@ -12,12 +12,14 @@ import Payment from './src/screens/Payment'
 import EstimateScreen from './src/screens/EstimateScreen'
 import EnterAddressScreen from './src/screens/EnterAddressScreen'
 import RequestScreen from './src/screens/RequestScreen'
+import ConfirmBookingScreen from './src/screens/ConfirmBookingScreen'
+import AfterOtherPaymentOptionsScreen from './src/screens/AfterOtherPaymentOptionsScreen'
 
 export default class App extends React.Component{
   render(){
       return(
         
-          <RequestScreen />
+          <ConfirmBookingScreen />
         
       );
     }
