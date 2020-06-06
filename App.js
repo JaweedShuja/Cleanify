@@ -14,12 +14,16 @@ import EnterAddressScreen from './src/screens/EnterAddressScreen'
 import RequestScreen from './src/screens/RequestScreen'
 import ConfirmBookingScreen from './src/screens/ConfirmBookingScreen'
 import AfterOtherPaymentOptionsScreen from './src/screens/AfterOtherPaymentOptionsScreen'
+import CleanerProgressScreen from './src/screens/CleanerProgressScreen'
+import CleanerOnTheWayScreen from './src/screens/CleanerOnTheWayScreen'
+import CleanerArrivedScreen from './src/screens/CleanerArrivedScreen'
+import CleaningInProgressScreen from './src/screens/CleaningInProgressScreen'
 
 export default class App extends React.Component{
   render(){
       return(
         
-          <ConfirmBookingScreen />
+          <CleaningInProgressScreen />
         
       );
     }
