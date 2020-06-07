@@ -99,15 +99,19 @@ import {
 import {Fonts} from '../../utils/Fonts.js'
 
 
-const EnterName = () => {
+const EnterName = (props) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('')
   return (
       <View style={{flex:1, backgroundColor:'white'}}>
+        <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        >
            <Image
                     style={{height:24, width:33, marginTop:15, marginLeft:20}}
                     source={require('../../images/Arrow.png')}
                 />
+                </TouchableOpacity>
                 <Text style={{
                     marginHorizontal:60, 
                     fontFamily:Fonts.Arimo,
@@ -157,7 +161,9 @@ const EnterName = () => {
                 </View> 
 
           <View style={styles.btnContainer}>
-            <TouchableOpacity style={{
+            <TouchableOpacity 
+            onPress={() => props.navigation.navigate('Terms')}
+            style={{
                         width:'80%', 
                         height:45, 
                         backgroundColor: firstName == '' ? 'rgba(249,5,5,0.48)' : 'rgba(249,5,5,1)',
@@ -210,3 +216,7 @@ const styles = StyleSheet.create({
 });
 
 export default EnterName;
+
+EnterName.navigationOptions = {
+  header:null
+}

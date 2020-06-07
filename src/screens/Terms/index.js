@@ -3,13 +3,20 @@ import {View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
 import {Fonts} from '../../utils/Fonts.js'
 
 export default class Terms extends React.Component{
+    static navigationOptions = {
+        header:null
+      }
     render(){
         return(
             <View style={{backgroundColor:'#ffffff', flex:1,}}>
-                <Image
-                    style={{height:24, width:33, marginTop:15, marginLeft:20}}
-                    source={require('../../images/Arrow.png')}
-                />
+                <TouchableOpacity
+                    onPress={() => this.props.navigation.goBack()}
+                >
+                    <Image
+                        style={{height:24, width:33, marginTop:15, marginLeft:20}}
+                        source={require('../../images/Arrow.png')}
+                    />
+                </TouchableOpacity>
 
                  <Image
                     style={{height:80, width:80, marginTop:15, alignSelf:'center'}}
@@ -27,7 +34,9 @@ export default class Terms extends React.Component{
                 </Text>    
                
 
-                    <TouchableOpacity style={{
+                    <TouchableOpacity 
+                    onPress={() => this.props.navigation.navigate('Payment')}
+                    style={{
                         width:'80%', 
                         height:40, 
                         backgroundColor:'#F90505', 

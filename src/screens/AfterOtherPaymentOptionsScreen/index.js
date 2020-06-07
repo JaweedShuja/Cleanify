@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, Modal } from 'react-native'
-import {Fonts} from '../../utils/Fonts.js'
 import PromoCodeModal from '../../modal/PromoCodeModal'
 import CheckIcon from '../../images/checkIcon.png'
 
 class AfterOtherPaymentOptionsScreen extends Component {
+    static navigationOptions = {
+        header:null
+      } 
     constructor(props){
         super(props)
 
@@ -34,7 +36,9 @@ class AfterOtherPaymentOptionsScreen extends Component {
            <View style={[styles.container, {backgroundColor:this.state.bgColor}]}>
 
                <View style={{flexDirection:'row'}}>
-               <TouchableOpacity>
+               <TouchableOpacity
+               onPress={() => this.props.navigation.goBack()}
+               >
                     <Image
                         style={{height:24, width:33, marginTop:15, marginLeft:20}}
                         source={require('../../images/Arrow.png')}
@@ -43,7 +47,7 @@ class AfterOtherPaymentOptionsScreen extends Component {
                     
                 </TouchableOpacity>
 
-                <Text style={{fontSize:18, alignSelf:'center', marginLeft:10, marginTop:10,}}>
+                <Text style={{fontSize:18, alignSelf:'center', marginLeft:20, marginTop:10,}}>
                         Payment options
                     </Text>
                </View>

@@ -15,6 +15,18 @@ import ShareIcon from '../../images/shareIcon.png'
 import CancelIcon from '../../images/cancelIcon.png'
 
 class CleanerOnTheWayScreen extends Component {
+    static navigationOptions = {
+        header:null
+      }
+      constructor(props){
+        super(props)
+        
+        var t = setInterval(() => {
+            this.props.navigation.navigate('CleanerArrivedScreen')
+            clearInterval(t)
+
+        },3000)
+    }
    render() {
        return (
            <View style={styles.container}>

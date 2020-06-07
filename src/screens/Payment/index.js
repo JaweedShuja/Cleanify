@@ -1,11 +1,15 @@
 import React from 'react'
-import {View, Text, Image, TextInput } from 'react-native'
+import {View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
 import {Fonts} from '../../utils/Fonts.js'
 
 export default class EnterName extends React.Component{
+    static navigationOptions = {
+        header:null
+      }
     render(){
         return(
             <View style={{backgroundColor:'#ffffff', flex:1,}}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('EstimateScreen')}>
                <Text 
                     style={{
                         alignSelf:'flex-end',
@@ -15,6 +19,7 @@ export default class EnterName extends React.Component{
                         color:'#F90505'
                     }}
                >SKIP</Text>
+               </TouchableOpacity>
 
                <Text style={{
                    fontSize:16,

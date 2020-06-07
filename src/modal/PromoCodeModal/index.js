@@ -29,7 +29,8 @@ class PromoCodeModal extends Component {
                
              
               <TextInput
-                style={{fontSize:18, fontWeight:'bold', alignSelf:'center', marginTop:50, }}
+                textAlign={"center"}
+                style={{fontSize:18, fontWeight:'bold', alignSelf:'center', marginTop:50, width:150,}}
                 placeholder="Promo code"
               />
               <View style={{height:2, backgroundColor:'#F90505', width:150, alignSelf:'center'}}>

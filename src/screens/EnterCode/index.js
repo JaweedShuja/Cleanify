@@ -5,6 +5,9 @@ import Scroller from "./scroller";
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input'
 
 export default class EnterCode extends React.Component{
+    static navigationOptions = {
+      header:null
+    }
     constructor(props){
         super(props)
         this.state = {
@@ -39,7 +42,7 @@ export default class EnterCode extends React.Component{
         }).start();
       };
       _checkCode = () => {
-        
+        this.props.navigation.nav
       }
     render(){
         const screenHeight = Dimensions.get("window").height;
@@ -74,11 +77,12 @@ export default class EnterCode extends React.Component{
     };
         return(
             <View style={{backgroundColor:'#ffffff', flex:1,}}>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                 <Image
                     style={{height:24, width:33, marginTop:15, marginLeft:20}}
                     source={require('../../images/Arrow.png')}
                 />
-
+          </TouchableOpacity>
                <Text
                 style={{
                     fontFamily:Fonts.ArimoBold,
@@ -178,7 +182,7 @@ export default class EnterCode extends React.Component{
                     ref={this.pinInput}
                     value={this.state.code}
                     onTextChange={code => this.setState({ code:code })}
-                    onFulfill={Keyboard.dismiss}
+                    onFulfill={() => this.props.navigation.navigate('EnterEmail')}
                     onBackspace={this._focusePrevInput}
                     cellStyle={{
                         backgroundColor:'#E6E9ED',

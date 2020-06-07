@@ -14,14 +14,18 @@ import {
 import {Fonts} from '../../utils/Fonts.js'
 
 
-const KeyboardAvoidingComponent = () => {
+const KeyboardAvoidingComponent = (props) => {
     const [number, setNumber] = useState('');
   return (
       <View style={{flex:1, backgroundColor:'white'}}>
+        <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        >
            <Image
                     style={{height:24, width:33, marginTop:15, marginLeft:20}}
                     source={require('../../images/Arrow.png')}
                 />
+                </TouchableOpacity>
                 <Text style={{
                     marginHorizontal:100, 
                     fontFamily:Fonts.Arimo,
@@ -81,7 +85,9 @@ const KeyboardAvoidingComponent = () => {
 
           {/* <TextInput placeholder="Username" style={styles.textInput} /> */}
           <View style={styles.btnContainer}>
-            <TouchableOpacity style={{
+            <TouchableOpacity 
+            onPress={() => props.navigation.navigate('EnterCode')}
+            style={{
                         width:'80%', 
                         height:45, 
                         // backgroundColor:'#F90505', 
@@ -135,3 +141,7 @@ const styles = StyleSheet.create({
 });
 
 export default KeyboardAvoidingComponent;
+
+KeyboardAvoidingComponent.navigationOptions = {
+  header:null
+}

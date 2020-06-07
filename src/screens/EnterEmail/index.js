@@ -14,14 +14,18 @@ import {
 import {Fonts} from '../../utils/Fonts.js'
 
 
-const EnterEmail = () => {
+const EnterEmail = (props) => {
     const [number, setNumber] = useState('');
   return (
       <View style={{flex:1, backgroundColor:'white'}}>
-           <Image
+        <TouchableOpacity
+        onPress={() => props.navigation.goBack()}
+        >
+              <Image
                     style={{height:24, width:33, marginTop:15, marginLeft:20}}
                     source={require('../../images/Arrow.png')}
                 />
+                </TouchableOpacity>
                 <Text style={{
                     marginHorizontal:70, 
                     fontFamily:Fonts.Arimo,
@@ -58,7 +62,9 @@ const EnterEmail = () => {
                 </View> 
 
           <View style={styles.btnContainer}>
-            <TouchableOpacity style={{
+            <TouchableOpacity 
+            onPress={() => props.navigation.navigate('EnterPassword')}
+            style={{
                         width:'80%', 
                         height:45, 
                         backgroundColor: number == '' ? 'rgba(249,5,5,0.48)' : 'rgba(249,5,5,1)',
@@ -111,3 +117,7 @@ const styles = StyleSheet.create({
 });
 
 export default EnterEmail;
+
+EnterEmail.navigationOptions = {
+  header:null
+}

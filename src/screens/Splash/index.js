@@ -1,10 +1,23 @@
 import React from 'react'
-import {View , Text, StyleSheet, Image} from 'react-native'
+import {View , Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
 
 export default class Splash extends React.Component{
+    static navigationOptions = {
+        header:null
+    }
+    constructor(props){
+        super(props)
+
+        var t = setInterval(() => {
+            this.props.navigation.navigate('GetStarted')
+            clearInterval(t)
+        },2000)
+
+    }
     render(){
         return(
-            <View style={styles.container}>
+            <View 
+            style={styles.container}>
                 <Image
                     style={{height:62, width:270}}
                     source={require('../../images/logo.png')}

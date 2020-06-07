@@ -1,8 +1,11 @@
 import React from 'react'
-import {View, Text, ImageBackground, Image, TextInput, ScrollView} from 'react-native'
+import {View, Text, ImageBackground, Image, TextInput, ScrollView, TouchableOpacity} from 'react-native'
 import {Fonts} from '../../utils/Fonts.js'
 
 export default class GetStarted extends React.Component{
+    static navigationOptions = {
+        header:null
+    }
     render(){
         return(
             <View>
@@ -36,15 +39,12 @@ export default class GetStarted extends React.Component{
                                 </View>
                             </View>
 
-                           <View style={{marginLeft:20}}>
-                                <TextInput
-                                    style={{
-                                        marginTop:5,
-                                        fontSize:18, 
-                                        fontFamily:Fonts.Arimo
-                                    }}
-                                    placeholder="Phone number"
-                                />
+                           <TouchableOpacity
+                           onPress={() => this.props.navigation.navigate('AddNumber')}
+                            style={{marginLeft:20, marginTop:14}}>
+                                <Text style={{fontSize:18, color:'gray', paddingBottom:12}}>
+                                    Phone number
+                                </Text>
                                  <View style={{
                                         width:'100%', 
                                         height:1, 
@@ -53,7 +53,7 @@ export default class GetStarted extends React.Component{
                                      }}>
 
                                 </View>
-                           </View>
+                           </TouchableOpacity>
                             
                         </View>  
 

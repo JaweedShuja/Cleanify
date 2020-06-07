@@ -30,6 +30,9 @@ import Calendar from '../../images/calendar.png'
 import CalendarModal from '../../modal/CalendarModal'
 
 class RequestScreen extends Component {
+    static navigationOptions = {
+        header:null
+      }
     constructor(props){
         super(props)
         this.state = {
@@ -73,7 +76,9 @@ class RequestScreen extends Component {
                    shadowRadius: 2.25,
                    elevation: 4,
                 }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={() => this.props.navigation.goBack()}
+                    >
                         <Image
                             style={{height:24, width:33, marginLeft:20}}
                             source={require('../../images/Arrow.png')}
@@ -269,9 +274,12 @@ class RequestScreen extends Component {
 
                         {/* Button */}
 
-                <View style={styles.btnContainer}>
+                <View 
+                
+                style={styles.btnContainer}>
                     <TouchableOpacity
-                     style={[styles.Btn, {opacity:this.state.isDateSet == 1 ? 1 : 0.5}]}>
+                    onPress={() => this.props.navigation.navigate('ConfirmBookingScreen')}
+                     style={[styles.Btn, {opacity:this.state.isDateSet == 1 ? 1 : 1}]}>
                         <Text
                             style={styles.BtnText}
                         >BOOK A CLEANING</Text>

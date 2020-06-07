@@ -19,6 +19,9 @@ import CashDownTicIcon from '../../images/cashDownTicIcon.png'
 import ConnectingModal from '../../modal/ConnectingModal'
 
 class ConfirmBookingScreen extends Component {
+    static navigationOptions = {
+        header:null
+      }
     constructor(props){
         super(props)
 
@@ -101,7 +104,9 @@ class ConfirmBookingScreen extends Component {
         );
        return (
            <View style={[styles.container, {backgroundColor:this.state.bgColor}]}>
-               <TouchableOpacity>
+               <TouchableOpacity
+               onPress={() => this.props.navigation.goBack()}
+               >
                     <Image
                         style={{height:24, width:33, marginTop:15, marginLeft:20}}
                         source={require('../../images/Arrow.png')}
@@ -208,7 +213,9 @@ class ConfirmBookingScreen extends Component {
                         style={{height:25, width:25}}
                         source={CashIcon}
                     />
-                    <TouchableOpacity style={{flexDirection:'row', marginLeft:10,}}>
+                    <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate('AfterOtherPaymentOptionsScreen')}
+                     style={{flexDirection:'row', marginLeft:10,}}>
                         <Text>
                             Cash
                         </Text>
@@ -229,7 +236,14 @@ class ConfirmBookingScreen extends Component {
                 </View>   
 
                 <TouchableOpacity 
-                onPress={() => this.changeModalVisibility(true)}
+                onPress={() => {
+                    this.changeModalVisibility(true)
+                    var t = setInterval(() => {
+                        this.changeModalVisibility(false)
+                        this.props.navigation.navigate('CleanerProgressScreen')
+                        clearInterval(t)
+                    },3000)
+                }}
                 style={{height:45, width:'75%', alignSelf:'center', justifyContent:'center', alignItems:'center', backgroundColor:'#F90505', alignSelf:'center', marginTop:10, borderRadius:33}}>
                     <Text style={{fontWeight:'bold', color:'white'}}>
                     CONFIRM BOOKING

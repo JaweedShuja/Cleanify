@@ -22,6 +22,9 @@ import AddOther from '../../images/addOther.png'
 import SwipeGesture from '../../../swipe-gesture'
 
 class EnterAddressScreen extends Component {
+  static navigationOptions = {
+    header:null
+  }
     constructor(props)
     {
         super(props)
@@ -115,7 +118,7 @@ class EnterAddressScreen extends Component {
            <View style={styles.container}>
               { this.state.isHomeSelect ? 
               <View style={{backgroundColor:"white", height:55, flexDirection:'row', alignItems:'center'}}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                   <Image
                       style={{height:24, width:33, marginLeft:20}}
                       source={require('../../images/Arrow.png')}
@@ -139,7 +142,7 @@ class EnterAddressScreen extends Component {
               
     </View>
                  : <View style={styles.addressBarView}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                         <Image
                             style={{height:24, width:33, marginTop:15, marginLeft:20}}
                             source={require('../../images/Arrow.png')}
@@ -170,7 +173,8 @@ class EnterAddressScreen extends Component {
           </View> }
                <View style={{flex:1,}}>
                     <TouchableOpacity
-                    onPress={() => this.handleOpen()}
+                    onPress={() => this.props.navigation.navigate('RequestScreen')
+                    }
                      style={{
                         height:45, 
                         width:'80%', 
