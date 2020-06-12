@@ -33,7 +33,7 @@ class MyCleansScreen extends Component {
    render() {
        return (
            <View style={[styles.container, {backgroundColor:this.state.bgColor}]}>
-
+             
             <View style={{flexDirection:'row'}}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()} >
                         <Image
