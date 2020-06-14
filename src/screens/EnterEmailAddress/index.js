@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { 
     View, 
     KeyboardAvoidingView, 
@@ -14,11 +14,8 @@ import {
 import {Fonts} from '../../utils/Fonts.js'
 
 
-const EnterPassword = (props) => {
+const EnterEmailAddress = (props) => {
     const [number, setNumber] = useState('');
-    useEffect( () => {
-      Keyboard.dismiss()
-   }, []);
   return (
       <View style={{flex:1, backgroundColor:'white'}}>
         <TouchableOpacity
@@ -35,7 +32,7 @@ const EnterPassword = (props) => {
                     marginTop:50,
                     fontSize:17
                   }}>
-                    Create your account password
+                    What's your email address?
                 </Text>
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -57,8 +54,9 @@ const EnterPassword = (props) => {
                                 borderColor:'red',
                                 width:'80%'
                             }}
-                            placeholder="Enter your password"
+                            placeholder="jhon@example.com"
                             value={number}
+                            keyboardType={"visible-password"}
                             secureTextEntry={true}
                             onChangeText={(value) => setNumber(value)}
                         />
@@ -66,7 +64,7 @@ const EnterPassword = (props) => {
 
           <View style={styles.btnContainer}>
             <TouchableOpacity 
-            onPress={() => props.navigation.navigate('EnterName')}
+            onPress={() => props.navigation.navigate('EnterPassword')}
             style={{
                         width:'80%', 
                         height:45, 
@@ -119,8 +117,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default EnterPassword;
+export default EnterEmailAddress;
 
-EnterPassword.navigationOptions = {
+EnterEmailAddress.navigationOptions = {
   header:null
 }

@@ -26,6 +26,7 @@ import MyCleansScreen from './src/screens/MyCleansScreen'
 import PromotionScreen from './src/screens/PromotionScreen'
 import AboutScreen from './src/screens/AboutScreen'
 import LocationsScreen from './src/screens/LocationsScreen'
+import EnterEmailAddress from './src/screens/EnterEmailAddress'
 import Drawer from './src/components/NavigationDrawer'
 
 const RootStack = createStackNavigator(
@@ -98,6 +99,9 @@ const RootStack = createStackNavigator(
     },
     LocationsScreen:{
       screen: LocationsScreen
+    },
+    EnterEmailAddress:{
+      screen:EnterEmailAddress
     }
   },
   

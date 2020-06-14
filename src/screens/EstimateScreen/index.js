@@ -251,23 +251,35 @@ class EstimateScreen extends Component {
                 <Text style={styles.mainText}>
                     Get an estimate 
                 </Text>
-                <View style={styles.estimateBox}>
-                    <View style={styles.range}>
-                        <Text>Bedrooms</Text>
-                        <Image
-                            style={styles.rangeImage}
-                            source={RangeBar1}
-                        />
-                    </View>
+                <View style={{
+                    borderRadius:10,
+                    borderWidth:2,
+                    borderColor:'rgba(105,105,105,0.05)',
+                    alignSelf:'center',
+                    width:'90%',
+                    height:191,
+                    marginTop:20,
+                    backgroundColor:'rgba(105,105,105,0.05)'
+                }}>
+                    <View style={styles.estimateBox}>
+                        <View style={styles.range}>
+                            <Text>Bedrooms</Text>
+                            <Image
+                                style={styles.rangeImage}
+                                source={RangeBar1}
+                            />
+                        </View>
 
-                    <View style={styles.range}>
-                        <Text>Bathrooms</Text>
-                        <Image
-                            style={styles.rangeImage2}
-                            source={RangeBar2}
-                        />
+                        <View style={styles.range}>
+                            <Text>Bathrooms</Text>
+                            <Image
+                                style={styles.rangeImage2}
+                                source={RangeBar2}
+                            />
+                        </View>
                     </View>
                 </View>
+
                 <Text style={styles.costText}>
                     Total Cost
                 </Text>
@@ -313,20 +325,16 @@ const styles = StyleSheet.create({
         marginLeft:25,
     },
     estimateBox:{
-        height:191,
-        width:311,
+        height:'100%',
+        width:'100%',
         alignSelf:'center',
-        marginTop:20,
+        // marginTop:20,
         borderRadius:10,
         //shadow//
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
-        elevation: 2,
+        borderWidth:1.5,
+        borderColor:'rgba(105,105,105,0.05)',
+        backgroundColor:'white'
+
     },
     costText:{
         fontWeight:'bold',

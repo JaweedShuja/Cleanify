@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     KeyboardAvoidingView, 
@@ -16,6 +16,11 @@ import {Fonts} from '../../utils/Fonts.js'
 
 const KeyboardAvoidingComponent = (props) => {
     const [number, setNumber] = useState('');
+    useEffect(() => {
+      return function cleanup(){
+        Keyboard.dismiss
+      }
+    })
   return (
       <View style={{flex:1, backgroundColor:'white'}}>
         <TouchableOpacity

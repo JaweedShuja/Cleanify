@@ -26,6 +26,12 @@ export default class EnterCode extends React.Component{
                 clearInterval(t);
             }
         },1000)
+        var t2 = setInterval(() => {
+          if(this.state.code.length == 4){
+            this.props.navigation.navigate('EnterEmail')
+            clearInterval(t2)
+          }
+        })
     }
     handleOpen = () => {
         Animated.timing(this.state.animation, {
@@ -182,7 +188,10 @@ export default class EnterCode extends React.Component{
                     ref={this.pinInput}
                     value={this.state.code}
                     onTextChange={code => this.setState({ code:code })}
-                    onFulfill={() => this.props.navigation.navigate('EnterEmail')}
+                    onFulfill={() => {
+                      Keyboard.dismiss()
+                      // this.props.navigation.navigate('EnterName')
+                    }}
                     onBackspace={this._focusePrevInput}
                     cellStyle={{
                         backgroundColor:'#E6E9ED',
@@ -215,7 +224,9 @@ export default class EnterCode extends React.Component{
                         </Text>
 
                </View> : null}
-                {this.state.counter == 0 ? <TouchableOpacity onPress={this.handleOpen}>
+                {this.state.counter == 0 ? <TouchableOpacity 
+                  onPress={this.handleOpen}
+                >
                     <Text style={{fontSize:12, marginLeft:22, marginTop:50, color:'#F90505', fontFamily:Fonts.Arimo}}>
                     Didn’t receive Code
                </Text> 

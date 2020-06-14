@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { 
     View, 
     KeyboardAvoidingView, 
@@ -16,18 +16,23 @@ import {Fonts} from '../../utils/Fonts.js'
 
 const EnterEmail = (props) => {
     const [number, setNumber] = useState('');
+    useEffect(() => {
+      return () => {
+          Keyboard.dismiss()
+      }
+  }, [])
   return (
       <View style={{flex:1, backgroundColor:'white'}}>
         <TouchableOpacity
         onPress={() => props.navigation.goBack()}
         >
-              <Image
+           <Image
                     style={{height:24, width:33, marginTop:15, marginLeft:20}}
                     source={require('../../images/Arrow.png')}
                 />
                 </TouchableOpacity>
                 <Text style={{
-                    marginHorizontal:70, 
+                    marginHorizontal:60, 
                     fontFamily:Fonts.Arimo,
                     marginTop:50,
                     fontSize:17
@@ -54,16 +59,20 @@ const EnterEmail = (props) => {
                                 borderColor:'red',
                                 width:'80%'
                             }}
-                            placeholder="john@example.com"
+                            placeholder="jhon@example.com"
                             value={number}
-                            // keyboardType={"numeric"}
+                            keyboardType={"visible-password"}
+                            secureTextEntry={true}
                             onChangeText={(value) => setNumber(value)}
                         />
                 </View> 
 
           <View style={styles.btnContainer}>
             <TouchableOpacity 
-            onPress={() => props.navigation.navigate('EnterPassword')}
+            onPress={() => {
+              Keyboard.dismiss()
+              props.navigation.navigate('EnterPassword')}
+            }
             style={{
                         width:'80%', 
                         height:45, 

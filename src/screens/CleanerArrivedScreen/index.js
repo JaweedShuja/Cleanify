@@ -33,43 +33,58 @@ class CleanerArrivedScreen extends Component {
              <View style={styles.topContainer}>
                 
                 <View style={{
-                    height:40, 
-                    width:200, 
-                    borderRadius:33, 
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 1,
-                    },
-                    shadowOpacity: 0.20,
-                    shadowRadius: 1.41,
-                    elevation: 2, 
-                    marginTop:30,
-                    alignSelf:'center',    
-                    alignItems:'center',
-                    justifyContent:'center', 
+                     height:40, 
+                     width:200, 
+                     marginTop:30,
+                     alignSelf:'center', 
+                     borderWidth:2,
+                     borderColor:'rgba(105,105,105,0.05)',
+                     borderRadius:33, 
+
                 }}>
-                    <Text style={{fontSize:12, color:'gray'}}>Cleaner has arrived</Text>
+                    <View style={{
+                        height:'100%', 
+                        width:'100%', 
+                        borderRadius:33, 
+                        // shadowColor: "#000",
+                        // shadowOffset: {
+                        //     width: 0,
+                        //     height: 1,
+                        // },
+                        // shadowOpacity: 0.20,
+                        // shadowRadius: 1.41,
+                        // elevation: 2, 
+                        
+                           
+                        alignItems:'center',
+                        justifyContent:'center', 
+                        borderWidth:1.5,
+                        borderColor:'rgba(105,105,105,0.12)'
+                    }}>
+                        <Text style={{fontSize:12, color:'gray'}}>Cleaner has arrived</Text>
+                    </View>
                 </View>
+                <View style={{
+                    height:100, 
+                    width:220,
+                    borderRadius:15,
+                    
+                    alignSelf:'center',
+                    marginTop:20,
+                    borderWidth:2,
+                    borderColor:'rgba(105,105,105,0.04)',
+                    backgroundColor:'rgba(105,105,105,0.04)'
+                }}>
                 <View
                     style={{
-                        height:100, 
-                        width:220,
-                        borderRadius:15,
-                        shadowColor: "#000",
-                        shadowOffset: {
-                            width: 0,
-                            height: 1,
-                        },
-                        shadowOpacity: 0.20,
-                        shadowRadius: 1.41,
-                        elevation: 2, 
-                        alignSelf:'center',
-                        marginTop:20,
+                        backgroundColor:'white',
                         flexDirection:'row',
                         justifyContent:'space-around', 
                         alignItems:'center', 
                         paddingHorizontal:20,
+                        borderWidth:1.5,
+                        borderColor:'rgba(105,105,105,0.09)',
+                        borderRadius:15,
                     }}
                 >
                         <Image
@@ -91,6 +106,7 @@ class CleanerArrivedScreen extends Component {
                         style={{height:30, width:30, alignSelf:'center'}}
                         source={PropertyIcon}
                     />
+                </View>
                 </View>
              </View>
              <TouchableOpacity style={{flexDirection:'row', alignSelf:'center', marginTop:10, paddingBottom:10,}}>

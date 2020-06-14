@@ -31,6 +31,15 @@ class CleanerProgressScreen extends Component {
        return (
            <View style={styles.container}>
              <View style={styles.topContainer}>
+                 <View style={{
+                     height:200,
+                     width:65,
+                     borderRadius:33,
+                     borderWidth:2,
+                    borderColor:'rgba(105,105,105,0.05)',
+                    marginLeft:20,
+                    marginTop:10,
+                 }}>
                 <View style={styles.sideContainer}>
                     <Image
                         style={{height:30, width:30, alignSelf:'center', marginTop:20,}}
@@ -65,24 +74,38 @@ class CleanerProgressScreen extends Component {
                         source={PropertyIcon}
                     />
                 </View>
+                </View>
+                <View
+                    style={{
+                        height:40, 
+                        width:200,
+                        borderRadius:33,
+                        marginTop:30,
+                        marginLeft:20,
+                        borderWidth:2,
+                        borderColor:'rgba(105,105,105,0.05)'
+                    }}
+                >
                 <View style={{
-                    height:40, 
-                    width:200, 
+                    height:'100%', 
+                    width:'100%', 
                     borderRadius:33, 
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 1,
-                    },
-                    shadowOpacity: 0.20,
-                    shadowRadius: 1.41,
-                    elevation: 2, 
-                    marginTop:30,
-                    marginLeft:20,
+                    // shadowColor: "#000",
+                    // shadowOffset: {
+                    //     width: 0,
+                    //     height: 1,
+                    // },
+                    // shadowOpacity: 0.20,
+                    // shadowRadius: 1.41,
+                    // elevation: 2, 
+                    borderWidth:1.5,
+                    borderColor:'rgba(105,105,105,0.12)',
+                    
                     alignItems:'center',
                     justifyContent:'center'
                 }}>
                     <Text style={{fontSize:12, color:'gray'}}>Cleaner will arrive in 2 days</Text>
+                </View>
                 </View>
              </View>
              <TouchableOpacity style={{flexDirection:'row', alignSelf:'center', marginTop:10, paddingBottom:10,}}>
@@ -226,19 +249,20 @@ const styles = StyleSheet.create({
         paddingBottom:10,
     },
     sideContainer:{
-        height:200, 
-        width:65,
+        height:'100%', 
+        width:'100%',
         borderRadius:33,
-        marginLeft:20,
-        marginTop:10,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
-        elevation: 2,
+        
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 1,
+        // },
+        // shadowOpacity: 0.20,
+        // shadowRadius: 1.41,
+        // elevation: 2,
+        borderWidth:1.5,
+        borderColor:'rgba(105,105,105,0.12)'
     },
     bottomContainer:{
         width:'100%', 

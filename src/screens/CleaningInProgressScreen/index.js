@@ -22,7 +22,7 @@ class CleaningInProgressScreen extends Component {
             })
             if(this.state.seconds >= 99){
                 clearInterval(t)
-                this.props.navigation.navigate('EstimateScreen')
+                // this.props.navigation.navigate('EstimateScreen')
             }
         },1000)
     }
@@ -71,27 +71,42 @@ class CleaningInProgressScreen extends Component {
                     
                         </View>
                     </View>
-
                     <View style={{
                         height:130, 
                         width:274, 
                         alignSelf:'center', 
                         marginTop:40, 
                         borderRadius:15, 
-                        shadowColor: "#000",
-                        shadowOffset: {
-                            width: 0,
-                            height: 1,
-                        },
-                        shadowOpacity: 0.20,
-                        shadowRadius: 1.41,
-                        elevation: 2, 
+                        borderWidth:2,
+                        borderColor:'rgba(105,105,105,0.04)',
+                        backgroundColor:'rgba(105,105,105,0.04)'
+
+
+                    }}>
+
+                    <View style={{
+                        height:'100%',
+                        width:'100%',
+                        backgroundColor:'white',
+                        
+                        borderRadius:15, 
+                        // shadowColor: "#000",
+                        // shadowOffset: {
+                        //     width: 0,
+                        //     height: 1,
+                        // },
+                        // shadowOpacity: 0.20,
+                        // shadowRadius: 1.41,
+                        // elevation: 2, 
+                        borderWidth:1.5,
+                        borderColor:'rgba(105,105,105,0.09)'
                     }}>
                         <Text style={{fontSize:18, alignSelf:'center', marginTop:20,}}>Cleaning in Progress</Text>
                         <Text style={{fontSize:18, alignSelf:'center', marginTop:20,}}>Estimated finish time</Text> 
                         <Text style={{fontSize:18, alignSelf:'center', }}>14:30</Text>
 
 
+                    </View>
                     </View>
                     
 
