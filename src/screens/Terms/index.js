@@ -38,7 +38,7 @@ export default class Terms extends React.Component{
                     onPress={() => this.props.navigation.navigate('Payment')}
                     style={{
                         width:'80%', 
-                        height:40, 
+                        height:45, 
                         backgroundColor:'#F90505', 
                         marginTop:247, 
                         alignSelf:'center', 

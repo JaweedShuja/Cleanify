@@ -22,7 +22,7 @@ class CleaningInProgressScreen extends Component {
             })
             if(this.state.seconds >= 99){
                 clearInterval(t)
-                // this.props.navigation.navigate('EstimateScreen')
+                this.props.navigation.navigate('EstimateScreen')
             }
         },1000)
     }
