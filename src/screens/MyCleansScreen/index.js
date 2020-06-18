@@ -75,7 +75,7 @@ class MyCleansScreen extends Component {
                                     ADD CLEANER
                                 </Text>
                             </TouchableOpacity>
-                        </View>
+                        </View>        
                     </View>
                     <Image
                         style={{marginLeft:'30%'}}
