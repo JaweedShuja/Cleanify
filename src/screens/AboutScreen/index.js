@@ -20,7 +20,7 @@ class AboutScreen extends Component {
                     <Text style={{fontSize:18, alignSelf:'center', marginLeft:20, marginTop:10,}}>
                         About Cleanify
                     </Text>
-               </View>
+               </View>      
 
                <TouchableOpacity style={{flexDirection:'row', height:50, width:'80%', alignSelf:'center', marginTop:50,}}>
                     <Text style={{fontSize:18, marginTop:10,}}>
