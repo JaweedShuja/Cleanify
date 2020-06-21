@@ -9,7 +9,7 @@ class BookingScreen extends Component {
         header:null
       }
    render() {
-       return (
+       return (     
            <View style={styles.container}>
                <View style={{flexDirection:'row'}}>
                     <TouchableOpacity 
