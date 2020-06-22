@@ -4,7 +4,7 @@ import {
     Text, 
     StyleSheet, 
     TouchableOpacity, 
-    FlatList, 
+    FlatList,              
     Image,
  } from 'react-native'
 import RightArrow from '../../images/rightArrow.png'
