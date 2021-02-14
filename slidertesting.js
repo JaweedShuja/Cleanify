@@ -2,14 +2,14 @@ import React from 'react'
 import {
     View,
     Text
-} from 'react-native'
+ } from 'react-native'
 
-export default class App extends React.Component{
-    render(){
-        return(
-            <View>
-                <Text>this is testing slider screen</Text>
-            </View>
-        )
-    }
-}
+ export default class App extends React.Component{
+     render(){
+         return(
+             <View>
+                 <Text>this is slider screen</Text>
+             </View>
+         )
+     }
+ }

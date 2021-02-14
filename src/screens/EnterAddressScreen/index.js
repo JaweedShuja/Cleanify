@@ -697,6 +697,7 @@ export default class App extends Component {
           <View style={{ flex: 2 }}>
             {!!this.state.region.latitude && !!this.state.region.longitude &&
               <MapView
+              customMapStyle={require('../../../map_styles.json')}
                 style={{ ...styles.map, marginTop: this.state.marginTop }}
                 initialRegion={this.state.region}
                 showsUserLocation={true}

@@ -16,6 +16,7 @@ import MyMonthArray from '../../utils/Calender'
 import BookingData from '../../utils/BookingData'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Helper from '../../utils/Helper'
+import {Colors} from '../../utils/Colors'
 var d = new Date()
 
 class CalendarModal extends Component {
@@ -740,6 +741,7 @@ class CalendarModal extends Component {
 
                 </View> : null}
                 <DateTimePickerModal
+                style ={{backgroundColor: Colors.themeRed}}
                     isVisible={this.state.timePickerVisible}
                     mode={'time'}
 
