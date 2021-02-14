@@ -17,6 +17,8 @@ import Ironing from '../../images/Ironing.png'
 import CashIcon from '../../images/cashIcon.png'
 import CashDownTicIcon from '../../images/cashDownTicIcon.png'
 import ConnectingModal from '../../modal/ConnectingModal'
+import BookingData from '../../utils/BookingData'
+import Helper from '../../utils/Helper'
 
 class ConfirmBookingScreen extends Component {
     static navigationOptions = {
@@ -38,6 +40,30 @@ class ConfirmBookingScreen extends Component {
             selectedDay:17,
             isModalVisible:false,
             bgColor:'white',
+            pet : {1:'Dogs',
+                2:'Cats',
+                3:'Other'},
+            pet_image:{
+                1:require('../../images/dogIcon.png'),
+                2:require('../../images/catIcon.png'),
+                3:require('../../images/otherIcon.png')
+            },
+            months:{
+                1:'Jan',
+                2:'Feb',
+                3:'Mae',
+                4:'Apr',
+                5:'May',
+                6:'Jun',
+                7:'Jul',
+                8:'Aug',
+                9:'Sep',
+                10:'Oct',
+                11:'Nov',
+                12:'Dec'
+            }    
+
+            
         }
     }
     changeModalVisibility = (bool) => {
@@ -114,15 +140,18 @@ class ConfirmBookingScreen extends Component {
                 </TouchableOpacity>
 
                 <View style={styles.topMonthContainer}>
-                <Text style={styles.monthText}>May</Text>
+                <Text style={styles.monthText}>{this.state.months[(BookingData.start_date.split('-')[1] - 1)]}</Text>
 
                 <View style={styles.currentMonthContainer}>
                     <Text style={styles.currentMonthText}>
-                        Jun, 2020
+                        {/* Jun, 2020 */}
+                        {this.state.months[(BookingData.start_date.split('-')[1])]+","+BookingData.start_date.split('-')[2]}
                     </Text>
                 </View>
 
-                <Text style={styles.monthText}>July</Text>
+                <Text style={styles.monthText}>
+                {this.state.months[(BookingData.start_date.split('-')[1] + 1)]}
+                </Text>
                 </View>
 
                 <View style={{alignSelf:'center'}}>
@@ -140,7 +169,7 @@ class ConfirmBookingScreen extends Component {
                     />
 
                     <Text style={{color:'gray', marginLeft:5,}}>
-                        1993 Mbalo Street, Midrand
+                        {BookingData.address + ',' + BookingData.actual_address}
                     </Text>
                 </View>
                 <View style={styles.bottomLine}>
@@ -157,7 +186,7 @@ class ConfirmBookingScreen extends Component {
                         </View>
                         <View style={{flex:3, justifyContent:'center'}}>
                             <Text style={{color:'gray'}}>
-                                1 Bedroom & 1 Bathrooms
+                                {`${BookingData.total_rooms} Bedroom & ${BookingData.total_bathrooms} Bathrooms`}
                             </Text>
                         </View>
                     </View>
@@ -165,18 +194,18 @@ class ConfirmBookingScreen extends Component {
                         <View style={{flex:1, justifyContent:'center'}}>
                             <Image
                                 style={{height:20, width:20, alignSelf:'center'}}
-                                source={DogIcon}
+                                source={this.state.pet_image[BookingData.pet_id]}
                             />
                         </View>
                         <View style={{flex:3, justifyContent:'center'}}>
                             <Text style={{color:'gray'}}>
-                                Pets: 2 Dogs
+                                {`Pets: ${BookingData.pet_count} ${this.state.pet[BookingData.pet_id]}`}
                             </Text>
                         </View>
                     </View>
                 </View>
                 <View style={{width:'70%', height:60, alignSelf:'center', flexDirection:'row'}}>
-                    <View style={{alignItems:'center', justifyContent:'center'}}>
+                    <View style={ {alignItems:'center', justifyContent:'center'}}>
                         <View style={{height:30, width:30, backgroundColor:'#F90505', borderRadius:33, alignItems:'center', justifyContent:'center'}}>
                             <Image
                                 source={Laundry}
@@ -236,7 +265,7 @@ class ConfirmBookingScreen extends Component {
                 </View>   
 
                 <TouchableOpacity 
-                onPress={() => {
+                onPress={async () => {
                     this.changeModalVisibility(true)
                     var t = setInterval(() => {
                         this.changeModalVisibility(false)
@@ -302,6 +331,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         alignSelf:'center',  
         marginTop:10,
+        marginHorizontal:50
     },
     bottomLine:{
         height:1, 

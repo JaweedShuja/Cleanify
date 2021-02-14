@@ -1,413 +1,3 @@
-// import React, { Component } from 'react'
-// import {
-//     View,
-//     StyleSheet,
-//     Text,
-//     TouchableOpacity,
-//     Image,
-//     TextInput,
-//     ImageBackground,
-//     Keyboard,
-//     TouchableWithoutFeedback,
-//     Animated,
-//     Dimensions,
-//     Modal,
-//     ActivityIndicator
-//  } from 'react-native'
-// import BackArrow from '../../images/Arrow.png'
-// import MapImage from '../../images/MapImage.png'
-// // import MapView from 'react-native-maps';
-// import AddWork from '../../images/addWork.png'
-// import AddHome from '../../images/addHome.png'
-// import AddOther from '../../images/addOther.png'
-// import SwipeGesture from '../../../swipe-gesture'
-// import Helper from '../../utils/Helper'
-// import BookingData from '../../utils/BookingData'
-// import {AddBookingAddressPayload} from '../../networking/payloads';
-// import {PostRequestWithAuthentication} from '../../networking/postRequest';
-// import {AddBookingAddressAPI} from '../../networking/api';
-
-// class EnterAddressScreen extends Component {
-//   static navigationOptions = {
-//     headerShown:false
-//   }
-//     constructor(props)
-//     {
-//         super(props)
-
-//         this.state = {
-//             animation: new Animated.Value(0),
-//             isHomeSelect:false,
-//             address:'',
-//             isLoading:false
-//         }
-//     }
-//     async handleSubmit(){
-//       if(this.state.address == ''){
-//         Helper.showToast('Please Choose Location!')
-//       }else{
-//         BookingData.address = this.state.address
-//         BookingData.actual_address = this.state.address
-//         BookingData.lat = '45.1932024'
-//         BookingData.lng = '67.1554619'
-
-//         this.setState({isLoading: true});
-//         const payload = AddBookingAddressPayload(this.state.address, '13.4', '13.4', this.state.address);
-//         var responce = await PostRequestWithAuthentication(payload, AddBookingAddressAPI(BookingData.bookingDraftId), true);
-//         this.setState({isLoading: false});
-//         if (responce.status == 'success') {
-//             Helper.showToast('Address Added Successfully');
-//             this.props.navigation.navigate('RequestScreen');
-//         }
-//         else{
-//             Helper.showToast('There is unknown error!')
-//         }
-        
-//       } 
-//     }
-//     handleOpen = () => {
-//         Animated.timing(this.state.animation, {
-//           toValue: 1,
-//           duration: 300,
-//           useNativeDriver: true,
-//         }).start();
-//       };
-//       handleClose = () => {
-//         Animated.timing(this.state.animation, {
-//           toValue: 0,
-//           duration: 200,
-//           useNativeDriver: true,
-//         }).start();
-//       };
-//       onSwipePerformed = (action) => {
-
-//         switch(action){
-//           case 'left':{
-//             console.log('left Swipe performed');
-//             break;
-//           }
-//            case 'right':{
-//             console.log('right Swipe performed');
-//             break;
-//           }
-//            case 'up':{
-//             console.log('up Swipe performed');
-//             break;
-//           }
-//            case 'down':{
-//             console.log('down Swipe performed');
-//             this.handleClose()
-//             break;
-//           }
-//            default : {
-//            console.log('Undeteceted action');
-//            }
-//         }
-//       }
-
-//    render() {
-//     const screenHeight = Dimensions.get("window").height;
-//     const backdrop = {
-//         transform: [
-//           {
-//             translateY: this.state.animation.interpolate({
-//               inputRange: [0, 0.01],
-//               outputRange: [screenHeight, 0],
-//               extrapolate: "clamp",
-//             }),
-//           },
-//         ],
-//         opacity: this.state.animation.interpolate({
-//           inputRange: [0.01, 0.5],
-//           outputRange: [0, 1],
-//           extrapolate: "clamp",
-//         }),
-//       };
-//       const slideUp = {
-//         transform: [
-//           {
-//             translateY: this.state.animation.interpolate({
-//               inputRange: [0.01, 1],
-//               outputRange: [0, -1 * screenHeight],
-//               extrapolate: "clamp",
-//             }),
-//           },
-//         ],
-//       };
-//        return (
-         
-//            <ImageBackground
-
-//                 style={{height:'100%', width:'100%'}}
-//                 source={MapImage}
-//            >
-//            <TouchableWithoutFeedback
-//             onPress={
-//                 Keyboard.dismiss
-//             }
-//            >
-//            <View style={styles.container}>
-//               { this.state.isHomeSelect ?
-//               <View style={{backgroundColor:"white", height:55, flexDirection:'row', alignItems:'center'}}>
-//               <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-//                   <Image
-//                       style={{height:24, width:33, marginLeft:20}}
-//                       source={require('../../images/Arrow.png')}
-//                   />
-//               </TouchableOpacity>
-//               <View style={{
-//                             height:40,
-//                             width:40,
-//                             backgroundColor:'#F90505',
-//                             borderRadius:70,
-//                             marginLeft:20,
-//                             alignItems:'center',
-//                             justifyContent:'center',
-//                             }}>
-//                                 <Image
-//                                     style={{height:20, width:20}}
-//                                     source={AddHome}
-//                                 />
-//                         </View>
-//                         <Text style={{marginLeft:20, color:'#6A7980'}}>{this.state.address}</Text>
-
-//     </View>
-//                  : <View style={styles.addressBarView}>
-//                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-//                         <Image
-//                             style={{height:24, width:33, marginTop:15, marginLeft:20}}
-//                             source={require('../../images/Arrow.png')}
-//                         />
-//                     </TouchableOpacity>
-//                     <TextInput
-//                         value={this.state.address}
-//                         onChangeText={(value) => this.setState({address:value})}
-//                         onFocus={() => this.handleOpen()}
-//                         style={styles.textInput}
-//                         placeholder="Street Address"
-
-//                     />
-//                     <TextInput
-//                         onFocus={() => this.handleOpen()}
-//                         style={[styles.textInput,{marginTop:75,}]}
-//                         placeholder="Unit & Apartment name"
-//                     />
-//                     <View style={{width:12, position:'absolute', marginLeft:60, marginTop:35,}}>
-//                         <View style={{height:12, width:12, backgroundColor:'#0052B4'}}>
-
-//                         </View>
-//                         <View style={{width:2, height:40, backgroundColor:'#6A7980', alignSelf:'center' }}>
-
-//                         </View>
-//                         <View style={{height:12, width:12, backgroundColor:'#F90505'}}>
-
-//                         </View>
-//                     </View>
-//           </View> }
-//                <View style={{flex:1,}}>
-//                     <TouchableOpacity
-//                     disabled={this.state.isLoading}
-//                     onPress={() => {
-                      
-//                       this.handleSubmit()
-//                     }
-//                     }
-//                      style={{
-//                         height:45,
-//                         width:'80%',
-//                         backgroundColor:'#F90505',
-//                         position:'absolute',
-//                         bottom:20,
-//                         alignSelf:'center',
-//                         borderRadius:30,
-//                         alignItems:'center',
-//                         justifyContent:'center',
-//                         opacity:this.state.isLoading ? 0.5 : 1
-//                     }}>
-//                        {
-//                          this.state.isLoading ? 
-
-//                          <ActivityIndicator size={'small'} color="white" />
-//                          :
-//                          <Text
-//                             style={{
-//                                 fontWeight:'bold',
-//                                 color:'white',
-//                             }}
-//                         >USE LOCATION</Text>
-//                         }
-//                     </TouchableOpacity>
-//                 </View>
-
-//            </View>
-//            </TouchableWithoutFeedback>
-
-//            <Animated.View style={[StyleSheet.absoluteFill, styles.cover, backdrop]}>
-//           <View style={[styles.sheet]}>
-//             <Animated.View style={[styles.popup, slideUp]}>
-//                 <SwipeGesture
-//             gestureStyle={{ width:'100%'}}
-//            onSwipePerformed={this.onSwipePerformed}
-//            >
-//               <TouchableOpacity
-//               style={{height:30,}}
-//              onPress={this.handleClose}
-//               >
-//                 <View style={{width:113, height:3, backgroundColor:'#D8DADD', marginTop:10, alignSelf:'center'}}>
-
-//                 </View>
-//               </TouchableOpacity>
-//               <TouchableOpacity
-//               onPress={() => {
-//                   this.setState({
-//                     isHomeSelect:true,
-//                     address:'1993 Mbalo Street, Midrand'
-//                   })
-//                   this.handleClose()
-
-//                 }}
-//               style={{
-//                         width:'100%',
-//                         height:55,
-//                         marginTop:20,
-//                         backgroundColor:'white',
-//                         alignSelf:'center',
-//                         flexDirection:'row',
-//                         borderBottomWidth:1,
-//                         borderColor:'#DBDFE4',
-//                         alignItems:'center'
-
-//                     }}>
-//                         <View style={{
-//                             height:40,
-//                             width:40,
-//                             backgroundColor:'#F90505',
-//                             borderRadius:70,
-//                             marginLeft:30,
-//                             alignItems:'center',
-//                             justifyContent:'center',
-//                             }}>
-//                                 <Image
-//                                     style={{height:20, width:20}}
-//                                     source={AddHome}
-//                                 />
-//                         </View>
-//                         <Text style={{marginLeft:20,}}>1993 Mbalo Street</Text>
-//                 </TouchableOpacity>
-//                 <TouchableOpacity
-//               onPress={() => {
-//                   this.handleClose()
-
-//                 }}
-//               style={{
-//                         width:'100%',
-//                         height:55,
-//                         backgroundColor:'white',
-//                         alignSelf:'center',
-//                         flexDirection:'row',
-//                         borderBottomWidth:1,
-//                         borderColor:'#DBDFE4',
-//                         alignItems:'center',
-
-//                     }}>
-//                         <View style={{
-//                             height:40,
-//                             width:40,
-//                             backgroundColor:'#F90505',
-//                             borderRadius:70,
-//                             marginLeft:30,
-//                             alignItems:'center',
-//                             justifyContent:'center',
-//                             }}>
-//                                 <Image
-//                                     style={{height:20, width:20}}
-//                                     source={AddWork}
-//                                 />
-//                         </View>
-//                         <Text style={{marginLeft:20,}}>Add Work</Text>
-//                 </TouchableOpacity>
-//                 <TouchableOpacity
-//               onPress={() => {
-//                   this.handleClose()
-
-//                 }}
-//               style={{
-//                         width:'100%',
-//                         height:55,
-//                         backgroundColor:'white',
-//                         alignSelf:'center',
-//                         flexDirection:'row',
-//                         borderBottomWidth:1,
-//                         borderColor:'#DBDFE4',
-//                         alignItems:'center'
-
-//                     }}>
-//                         <View style={{
-//                             height:40,
-//                             width:40,
-//                             backgroundColor:'#F90505',
-//                             borderRadius:70,
-//                             marginLeft:30,
-//                             alignItems:'center',
-//                             justifyContent:'center',
-//                             }}>
-//                                 <Image
-//                                     style={{height:20, width:20}}
-//                                     source={AddOther}
-//                                 />
-//                         </View>
-//                         <Text style={{marginLeft:20,}}>Add Other</Text>
-//                 </TouchableOpacity>
-//         </SwipeGesture>
-
-//             </Animated.View>
-//           </View>
-//         </Animated.View>
-//            </ImageBackground>
-//         )
-//     }
-// }
-
-// export default EnterAddressScreen
-
-// const styles = StyleSheet.create({
-//     container:{
-//         flex:1,
-//     },
-//     addressBarView:{
-//         height:130,
-//         backgroundColor:'white'
-//     },
-//     textInput:{
-//         height:33,
-//         width:237,
-//         marginLeft:80,
-//         marginTop:25,
-//         backgroundColor:'#ECEFF0',
-//         position:'absolute',
-//         padding:5,
-//     },
-//     cover: {
-//         backgroundColor: "rgba(0,0,0,0)",
-//       },
-//       sheet: {
-//         position: "absolute",
-//         top: Dimensions.get("window").height,
-//         left: 0,
-//         right: 0,
-//         height: "100%",
-//         justifyContent: "flex-end",
-//       },
-//       popup: {
-//         backgroundColor: "#FFF",
-//         borderTopLeftRadius: 15,
-//         borderTopRightRadius: 15,
-//         alignItems: "center",
-//         justifyContent: "center",
-//         minHeight: 80,
-//       },
-// })
-
 import React, { Component } from 'react';
 import { 
   Text, 
@@ -427,27 +17,24 @@ import {
   Keyboard
  } from 'react-native';
 import MapView from "react-native-maps";
-import styles from "./style";
-import AddWork from '../../images/addWork.png'
-import AddHome from '../../images/addHome.png'
-import AddOther from '../../images/addOther.png'
+import styles from "./styles";
+import AddWork from './src/images/addWork.png'
+import AddHome from './src/images/addHome.png'
+import AddOther from './src/images/addOther.png'
 import Geolocation from 'react-native-geolocation-service';
-import {Fonts} from '../../utils/Fonts'
-import {Colors} from '../../utils/Colors'
-import SwipeGesture from '../../../swipe-gesture'
-import {AddBookingAddressPayload} from '../../networking/payloads';
-import {PostRequestWithAuthentication} from '../../networking/postRequest';
-import {AddBookingAddressAPI} from '../../networking/api';
-import Helper from '../../utils/Helper'
-import BookingData from '../../utils/BookingData'
+import {Fonts} from './src/utils/Fonts'
+import {Colors} from './src/utils/Colors'
+import SwipeGesture from './swipe-gesture'
+import {AddBookingAddressPayload} from './src/networking/payloads';
+import {PostRequestWithAuthentication} from './src/networking/postRequest';
+import {AddBookingAddressAPI} from './src/networking/api';
+import Helper from './src/utils/Helper'
+import BookingData from './src/utils/BookingData'
 
 // Disable yellow box warning messages
 console.disableYellowBox = true;
 
 export default class App extends Component {
-  static navigationOptions = {
-    headerShown:false,
-  }
   constructor(props) {
     super(props);
     this.state = {
@@ -470,16 +57,15 @@ export default class App extends Component {
       animation: new Animated.Value(0),
       isLoadingButton:false
     };
-    
   }
   async handleSubmit(){
     
     console.log(this.state.currentLat)
     console.log(this.state.currentLon)
 
-    if(this.state.userAddress == ''){
-      Helper.showToast('Please write Unit or apartment name!')
-    }else{
+    // if(this.state.address == ''){
+    //   Helper.showToast('Please Choose Location!')
+    // }else{
       BookingData.address = this.state.userLocation
       BookingData.actual_address = this.state.userAddress
       BookingData.lat = this.state.currentLat
@@ -501,43 +87,39 @@ export default class App extends Component {
       else{
           Helper.showToast('There is unknown error!')
       }
-    } 
-  }
-
-  async getLocation(){
-    if (this.hasLocationPermission()) {
-      await Geolocation.getCurrentPosition(
-          (position) => {
-          const region = {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              latitudeDelta: 0.001,
-              longitudeDelta: 0.001
-            };
-            this.setState({
-              region: region,
-              loading: false,
-              error: null,
-              currentLat: position.coords.latitude,
-              currentLon: position.coords.longitude,
-              
-            });
-          },
-          (error) => {
-            alert(error);
-            this.setState({
-              error: error.message,
-              loading: false
-            })
-          },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-      );
-    }
+    // } 
   }
 
   async componentDidMount() {
-    await this.getLocation()
     
+    if (this.hasLocationPermission()) {
+        await Geolocation.getCurrentPosition(
+            (position) => {
+            const region = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                latitudeDelta: 0.001,
+                longitudeDelta: 0.001
+              };
+              this.setState({
+                region: region,
+                loading: false,
+                error: null,
+                currentLat: position.coords.latitude,
+                currentLon: position.coords.longitude,
+                
+              });
+            },
+            (error) => {
+              alert(error);
+              this.setState({
+                error: error.message,
+                loading: false
+              })
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+      }
   }
   onSwipePerformed = (action) => {
 
@@ -717,9 +299,7 @@ export default class App extends Component {
               <View style={{
                 width:50
               }}>
-                <TouchableOpacity 
-                onPress={() => this.props.navigation.goBack()}
-                style={{
+                <TouchableOpacity style={{
                 height:50,
                 width:50,
                 alignItems:'center',
@@ -727,7 +307,7 @@ export default class App extends Component {
               }}>
                 <Image
                     style={{height:24, width:33}}
-                    source={require('../../images/Arrow.png')}
+                    source={require('./src/images/Arrow.png')}
                 />
 
               </TouchableOpacity>
@@ -869,7 +449,7 @@ export default class App extends Component {
                   width:30,
                   tintColor:'white'
                 }}
-                source={require('../../images/pin.png')}
+                source={require('./src/images/pin.png')}
               />
 
 
@@ -889,7 +469,7 @@ export default class App extends Component {
                     height:25,
                     width:25
                   }} 
-                  source={require('../../images/marker.png')}
+                  source={require('./src/images/marker.png')}
                 />
 
 

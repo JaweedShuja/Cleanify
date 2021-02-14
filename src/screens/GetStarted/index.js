@@ -1,10 +1,11 @@
 import React from 'react'
-import {View, Text, ImageBackground, Image, TextInput, ScrollView, TouchableOpacity} from 'react-native'
+import {View, Text, ImageBackground, Image, TextInput, ScrollView, TouchableOpacity, StatusBar} from 'react-native'
 import {Fonts} from '../../utils/Fonts.js'
+import {Colors} from '../../utils/Colors'
 
 export default class GetStarted extends React.Component{
     static navigationOptions = {
-        header:null
+        headerShown:false,
     }
     render(){
         return(
@@ -13,6 +14,7 @@ export default class GetStarted extends React.Component{
                 <ImageBackground 
                     source={require('../../images/Rectangle.png')}
                     style={{height:'85%', width:'100%', alignSelf:'center'}}>
+                        <StatusBar backgroundColor={Colors.themeRed} barStyle={'light-content'}/>
                         <Image 
                             source={require('../../images/logo.png')}
                             style={{height:45, width:180, marginLeft:150, marginTop:100}}

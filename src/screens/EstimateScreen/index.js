@@ -5,34 +5,162 @@ import {
     StyleSheet, 
     Image, 
     TouchableOpacity,
-    TouchableWithoutFeedback 
+    TouchableWithoutFeedback ,
+    ActivityIndicator,
+    BackHandler,
+    FlatList
 } from 'react-native'
 import MenuIcon from '../../images/menuIcon.png'
 import ButtonText from '../../images/BOOK_A_CLEANING.png' 
 import MenuDrawer from 'react-native-side-drawer'
 import SwipeGesture from '../../../swipe-gesture'
+import {NavigationEvents} from 'react-navigation';
 
+import {Fonts} from '../../utils/Fonts.js'
+import Loader from '../../components/Loader';
 import CalenderIcon from '../../images/calendar.png'
 import PaymentIcon from '../../images/paymentIcon.png'
 import MyCleansIcon from '../../images/myCleansIcon.png'
 import PromotionIcon from '../../images/promotionIcon.png'
 import PinIcon from '../../images/pinIcon.png'
 import AboutIcon from '../../images/aboutIcon.png'
-import RangeBar1 from '../../images/rangeBar1.png'
-import RangeBar2 from '../../images/rangeBar2.png'
+import LogoutIcon from '../../images/logoutIcon.png'
+
+import Laundry from '../../images/Laundry.png'
+import Ironing from '../../images/Ironing.png'
+import Windows from '../../images/Windows.png'
+import Shoe_wash from '../../images/Shoe_wash.png'  
+import Fridge from '../../images/Fridge.png'
+import Stove from '../../images/Stove.png'
+
+import {CreateBookingPayload} from '../../networking/payloads';
+import {PostRequestWithAuthentication} from '../../networking/postRequest';
+import {CreateBookingAPI} from '../../networking/api';
+
+import Helper from '../../utils/Helper'
+
+import BookingData from '../../utils/BookingData'
 
 class EstimateScreen extends Component {
     static navigationOptions = {
-        header:null
+        headerShown:false,
       }
     constructor(props){
         super(props)
         this.state = {
             open: false,
-            bgColor:'white'
+            bgColor:'white',
+            totalBedrooma:1,
+            isLoading:false,
+            totalBathrooms:1,
+
+            extras:[],
+            extrasImages:[
+                Laundry,
+                Ironing,
+                Windows,
+                Shoe_wash,
+                Fridge,
+                Stove,
+            ],
+            services:[],
+            extraPrice:0,
+            bedRoomPrice:0,
+            bathRoomPrice:0,
+            name:'',
         }
         this.toggleOpen = this.toggleOpen.bind(this)
     }
+    async componentDidMount() {
+        this.backHandler = BackHandler.addEventListener(
+          'hardwareBackPress',
+          this.backAction,
+        );
+        await this.getExtra()
+        await this.getUser()
+        await Helper.clearBookingData()
+      }
+      async getUser(){
+        let User = await Helper.getUser();
+        this.setState({
+            name: User.first_name + " " + User.last_name
+        })
+      }
+      async getExtra(){
+        let ExtraData = await Helper.getExtraData();
+        this.setState({
+            bedRoomPrice:ExtraData.bedRoomPrice,
+            bathRoomPrice:ExtraData.bathRoomPrice,
+            extras:ExtraData.extras
+        })
+      }
+      toggleService(id, price){
+        if(this.serviceAlreadyPresent(id)){
+            this.removeService(id, price)
+        }
+        else{
+            this.addService(id, price)
+        }
+      }
+      serviceAlreadyPresent(id){
+        for(let i = 0; i < BookingData.services.length; i++){
+            if(BookingData.services[i] == id){
+                return true
+            }
+        }
+        return false
+    }
+    addService(id, price){
+        BookingData.services.push(id)
+        console.log(BookingData)
+        this.setState({
+            services:BookingData.services,
+            extraPrice:this.state.extraPrice + price
+        })
+    }
+    removeService(id, price){
+        var filteredServices = BookingData.services.filter(el => {return el != id})
+        BookingData.services = filteredServices
+        this.setState({
+            services:BookingData.services,
+            extraPrice:this.state.extraPrice - price
+        })
+    }
+    
+      componentWillUnmount() {
+        this.backHandler.remove();
+      }
+      backAction = () => {
+        BackHandler.exitApp();
+        return true;
+      };
+
+    async handleSubmit() {
+        var bathroom = this.state.totalBathrooms;
+        var badroom = this.state.totalBedrooma;
+        var services = this.state.services;
+
+        BookingData.total_rooms = badroom
+        BookingData.total_bathrooms = bathroom
+
+        this.setState({isLoading: true});
+        const payload = CreateBookingPayload(bathroom, badroom, services);
+        // console.log(payload)
+        var responce = await PostRequestWithAuthentication(payload, CreateBookingAPI, true);
+        console.log(JSON.stringify(responce));
+        this.setState({isLoading: false});
+        if (responce.status == 'success') {
+            BookingData.bookingDraftId = responce.bookingId
+            Helper.showToast('Booking Created!');
+            this.props.navigation.navigate('EnterAddressScreen');
+        }
+        else{
+            Helper.showToast('There is unknown error!')
+        }
+        
+    }
+        
+      
     onSwipePerformed = (action) => {
     
         switch(action){
@@ -93,12 +221,16 @@ class EstimateScreen extends Component {
     
                 <View style={{marginLeft:10}}>
                     <Text style={{fontWeight:'bold', fontSize:18,}}>
-                        Trotric
+                        {this.state.name}
     
                     </Text>
-                    <Text style={{fontSize:10, color:'#6A7980'}}>
-                        View profile
-                    </Text>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('Profile')}
+                    >
+                        <Text style={{fontSize:12, color:'#6A7980'}}>
+                            View profile
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={{height:2, width:'85%', backgroundColor:'#C4C4C4', alignSelf:'center'}}>
@@ -180,12 +312,30 @@ class EstimateScreen extends Component {
             style={{flexDirection:'row', height:45, alignItems:'center'}}>
                 <Image
                     source={AboutIcon}
-                    style={{height:20, width:20, marginLeft:20,}}
+                    style={{height:18, width:18, marginLeft:22,}}
 
                 />
 
                 <Text style={{fontSize:15, marginLeft:15}}>
                     About
+                </Text> 
+
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+            onPress={() => {
+                this.props.navigation.navigate('SignIn')
+                Helper.setIsLogined('false')
+            }}
+            style={{flexDirection:'row', height:45, alignItems:'center'}}>
+                <Image
+                    source={LogoutIcon}
+                    style={{height:18.8, width:16.4, marginLeft:22}}
+
+                />
+
+                <Text style={{fontSize:15, marginLeft:15}}>
+                    Logout
                 </Text> 
 
             </TouchableOpacity>
@@ -239,6 +389,9 @@ class EstimateScreen extends Component {
             opacity={0.3}
             
           >
+               {/* {this.state.isLoading ? (
+          <Loader text={'Please wait...'} />
+        ) : null} */}
                <TouchableOpacity
                onPress={this.toggleOpen}
                >
@@ -251,54 +404,236 @@ class EstimateScreen extends Component {
                 <Text style={styles.mainText}>
                     Get an estimate 
                 </Text>
-                <View style={{
-                    borderRadius:10,
-                    borderWidth:2,
-                    borderColor:'rgba(105,105,105,0.05)',
-                    alignSelf:'center',
-                    width:'90%',
-                    height:191,
-                    marginTop:20,
-                    backgroundColor:'rgba(105,105,105,0.05)'
-                }}>
                     <View style={styles.estimateBox}>
                         <View style={styles.range}>
-                            <Text>Bedrooms</Text>
-                            <Image
-                                style={styles.rangeImage}
-                                source={RangeBar1}
-                            />
+                            <Text style={styles.roomText} >Bedrooms</Text>
+                            
+                            <View style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                            }}>
+                                <TouchableOpacity style={{
+                                    height:45,
+                                    width:45, 
+                                    borderRadius:5, 
+                                    backgroundColor:'#F90505',
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    color:'white'
+                                    }}
+                                    onPress={() => {
+                                        if(this.state.totalBedrooma != 1){
+                                            this.setState({
+                                                totalBedrooma:this.state.totalBedrooma - 1
+    
+                                            })
+                                        }
+                                        
+                                    }}
+                                    >
+                                        <Text style={{color:'white', fontFamily:Fonts.Arimo, fontSize:30}}>-</Text>
+
+                                </TouchableOpacity>
+                                <Text
+                                    style={{fontSize:20, fontFamily:Fonts.Arimo, marginHorizontal:10}}
+                                >
+                                    {this.state.totalBedrooma}
+
+                                </Text>
+
+                                <TouchableOpacity style={{
+                                    height:45,
+                                    width:45, 
+                                    borderRadius:5, 
+                                    backgroundColor:'#F90505',
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    color:'white'
+                                    }}
+                                    onPress={() => {
+                                        this.setState({
+                                            totalBedrooma:this.state.totalBedrooma + 1
+
+                                        })
+                                    }}
+                                    >
+                                        <Text style={{color:'white', fontFamily:Fonts.Arimo, fontSize:30}}>+</Text>
+
+                                </TouchableOpacity>
+
+
+                            </View>
                         </View>
 
                         <View style={styles.range}>
-                            <Text>Bathrooms</Text>
-                            <Image
+                            <Text style={styles.roomText}>Bathrooms</Text>
+
+                            <View style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                            }}>
+                            <TouchableOpacity style={{
+                                    height:45,
+                                    width:45, 
+                                    borderRadius:5, 
+                                    backgroundColor:'#F90505',
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    color:'white'
+                                    }}
+                                    onPress={() => {
+                                        if(this.state.totalBathrooms != 1){
+                                            this.setState({
+                                                totalBathrooms:this.state.totalBathrooms - 1
+    
+                                            })
+                                        }
+                                        
+                                    }}
+                                    >
+                                        <Text style={{color:'white', fontFamily:Fonts.Arimo, fontSize:30}}>-</Text>
+
+                                </TouchableOpacity>
+                                <Text
+                                    style={{fontSize:20, fontFamily:Fonts.Arimo, marginHorizontal:10}}
+                                >
+                                    {this.state.totalBathrooms}
+
+                                </Text>
+
+                                <TouchableOpacity style={{
+                                    height:45,
+                                    width:45, 
+                                    borderRadius:5, 
+                                    backgroundColor:'#F90505',
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    
+                                    color:'white'
+                                    }}
+                                    onPress={() => {
+                                        this.setState({
+                                            totalBathrooms:this.state.totalBathrooms + 1
+
+                                        })
+                                    }}
+                                    >
+                                        <Text style={{color:'white', fontFamily:Fonts.Arimo, fontSize:30}}>+</Text>
+
+                                </TouchableOpacity>
+                                </View>
+                            {/* <Image
                                 style={styles.rangeImage2}
                                 source={RangeBar2}
-                            />
+                            /> */}
                         </View>
                     </View>
-                </View>
+                {/* </View> */}
 
                 <Text style={styles.costText}>
                     Total Cost
                 </Text>
                 <Text style={styles.costAmountText}>
-                    R148.00
+                    {"R"+
+                        ((this.state.totalBedrooma * this.state.bedRoomPrice) + (this.state.totalBathrooms * this.state.bathRoomPrice) + parseInt(this.state.extraPrice))
+                    }
                 </Text>
+
+                <View>
+                    <Text style={{
+                        marginTop:5,
+                        fontFamily:Fonts.Arimo,
+                        alignSelf:'center',
+                    }}>Extras</Text>
+                  
+                    <View style={{
+                        marginHorizontal:30
+                    }}>
+                    <FlatList 
+                        data={this.state.extras}
+                        numColumns={4}
+                        renderItem={({item, index}) => {
+                            return(
+                                <View style={{
+                                    width:'25%',
+                                    alignItems:'center',
+                                }}>
+                                <TouchableOpacity 
+                                onPress={() => this.toggleService(item.id, parseInt(item.service_price))}
+                                style={{
+                                    height:50,
+                                    width:50,
+                                    borderRadius:50,
+                                    backgroundColor:'red',
+                                    margin:5,
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    borderColor:'black',
+                                    borderWidth: this.serviceAlreadyPresent(item.id) ? 5 : 0
+                                }}>
+                                    <Image
+                                        style={{height:25,
+                                            width:25}}
+                                        source={this.state.extrasImages[index]}
+                                    />
+
+                                </TouchableOpacity>
+
+                                <Text style={{
+                                    fontFamily:Fonts.Arimo,
+                                    fontSize:13,
+                                }}>{item.service_name}</Text>
+                                </View>
+                            )
+                        }}  
+                    />
+                    </View>
+                    {/* </View> */}
+                    <View style={styles.bottomLine}>
+
+                    </View>
+                </View>
+
+
+
                 <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('EnterAddressScreen')}
-                style={styles.bookButton}>
+                disabled={this.state.isLoading}
+                onPress={() => {
+                    this.handleSubmit()
+                }}
+                // onPress={async () => {
+                //         var data = await Helper.getExtraData()
+                //         console.log(data)
+                // }}
+                style={[styles.bookButton, {opacity: this.state.isLoading ? 0.5 : 1}]}>
+                    {
+                    this.state.isLoading ?
+
+                    <ActivityIndicator
+                    size="small"
+                    color='white'
+                    />
+                    :
                     <Image
                         style={styles.buttonText}
                         source={ButtonText}
-                    />
+                    />}
                 </TouchableOpacity>
 
 
                 </MenuDrawer>
+                <NavigationEvents
+          onDidBlur={() => this.backHandler.remove()}
+          onDidFocus={() => {
+            this.backHandler = BackHandler.addEventListener(
+              'hardwareBackPress',
+              this.backAction,
+            );
+          }}
+        />
            </View>
            {/* </SwipeGesture> */}
+           
         </TouchableWithoutFeedback>
 
         )
@@ -318,28 +653,38 @@ const styles = StyleSheet.create({
         marginTop:10,
         marginLeft:15,
     },
+    roomText:{
+        fontSize:18, 
+        fontFamily:Fonts.Arimo,
+    },
     mainText:{
         fontSize:18,
         fontWeight:'bold',
-        marginTop:30,
+        marginTop:10,
         marginLeft:25,
     },
     estimateBox:{
-        height:'100%',
-        width:'100%',
         alignSelf:'center',
-        // marginTop:20,
         borderRadius:10,
-        //shadow//
-        borderWidth:1.5,
-        borderColor:'rgba(105,105,105,0.05)',
-        backgroundColor:'white'
+        backgroundColor:'white',
+        height:150,  
+        width:'90%',
+        justifyContent:'space-around',
+        marginTop:10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3,
 
     },
     costText:{
         fontWeight:'bold',
         alignSelf:'center',
-        marginTop:20,
+        marginTop:15,
     },
     costAmountText:{
         fontSize:18,
@@ -353,7 +698,7 @@ const styles = StyleSheet.create({
     },
     bookButton:{
         height:45,
-        marginTop:100,
+        marginTop:20,
         width:'80%',
         alignSelf:'center',
         borderRadius:33,
@@ -368,8 +713,7 @@ const styles = StyleSheet.create({
     range:{ 
         flexDirection:'row',
         alignItems:'center',
-        alignSelf:'center',
-        marginTop:20,
+        justifyContent:'space-around',
 
     },
     rangeImage:{ 
